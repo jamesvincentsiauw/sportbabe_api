@@ -14,6 +14,11 @@ $ venv\scripts\activate
 # install dependencies
 (venv) $ pip install -r requirements.txt
 
+# configure environment variable
+(venv) $ cp .env.example .env
+
+# change DB_URI in .env file to your DB URI
+
 # run project
 (venv) $ python app.py
 
