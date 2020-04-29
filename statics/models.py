@@ -1,4 +1,3 @@
-from flask_sqlalchemy import SQLAlchemy
 from statics.db_config import db, sess
 
 

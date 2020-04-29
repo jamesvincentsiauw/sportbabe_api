@@ -2,20 +2,25 @@ import random
 import string
 import datetime
 import requests
+import os
 
 from flask import Flask, jsonify, request
 
 from statics.models import User, Bebep, Booking, get, get_by_id, topup_bebep
+from statics.ktp_verification import id_verification
 
 app = Flask(__name__)
 app.secret_key = "GB981UA7YT91"
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 def generateID(stringLength):
     lettersAndDigits = string.ascii_letters + string.digits
     return ''.join(random.choice(lettersAndDigits) for i in range(stringLength))
 
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route('/')
 def hello_world():
@@ -55,6 +60,33 @@ def book_venue(id):
                           start_hour=start_hour, end_hour=end_hour, total_price=total_price,
                           booked_at=datetime.datetime.now(), isFinished=False)
     return jsonify(new_booking.save())
+
+
+@app.route('/verification', methods=['POST'])
+def ktp_verification():
+    try:
+        if request.files:
+            file = request.files['img']
+            if allowed_file(file.filename):
+                filepath = 'statics/image/' + file.filename
+                file.save(os.path.join(filepath))
+                return jsonify(id_verification(filepath))
+            else:
+                return jsonify({
+                    'status': 400,
+                    'message': 'Bad Input Parameter. Image Must be PNG, JPG, or JPEG'
+                })
+        else:
+            return jsonify({
+                'status': 400,
+                'message': 'Bad Input Parameter. Image Needed'
+            })
+    except Exception as e:
+        ret = {
+            'status': 500,
+            'message': e.args
+        }
+        return ret
 
 
 if __name__ == '__main__':
