@@ -236,7 +236,7 @@ def get(model):
                 res.append(data)
             ret = {
                 'status': 200,
-                'message': "These Are the Registered Bebep Account",
+                'message': "These Are the Bookings Details",
                 'results': res
             }
         elif model == "BookingHistory":
@@ -250,13 +250,13 @@ def get(model):
                 res.append(data)
             ret = {
                 'status': 200,
-                'message': "These Are the Registered Bebep Account",
+                'message': "These Are the Booking Histories",
                 'results': res
             }
         else:
             ret = {
                 'status': 400,
-                'message': "Bad Parameter",
+                'message': "Bad Parameter. Model not found",
                 'results': res
             }
         return ret
@@ -266,6 +266,131 @@ def get(model):
             'message': e.args
         }
         return ret
+
+
+def get_by_id(id, model):
+    try:
+        if model == "User":
+            hasil = sess.query(User).filter(User.id == id).first()
+            if hasil is not None:
+                data = {
+                    'id': hasil.id,
+                    'nama': hasil.nama,
+                    'email': hasil.email,
+                    'phone': hasil.phone,
+                    'registered_at': hasil.registered_at
+                }
+                ret = {
+                    'status': 200,
+                    'message': "This is the User",
+                    'results': data
+                }
+            else:
+                ret = {
+                    'status': 400,
+                    'message': "Bad Parameter. ID not found",
+                    'results': {}
+                }
+        elif model == "Bebep":
+            hasil = sess.query(Bebep).filter(Bebep.id == id).first()
+            if hasil is not None:
+                data = {
+                    'id': hasil.id,
+                    'user_id': hasil.user_id,
+                    'balance': hasil.balance
+                }
+                ret = {
+                    'status': 200,
+                    'message': "These Are the Registered Bebep Account",
+                    'results': data
+                }
+            else:
+                ret = {
+                    'status': 400,
+                    'message': "Bad Parameter. ID not found",
+                    'results': {}
+                }
+        elif model == "Venue":
+            hasil = sess.query(Venue).filter(Venue.id == id).first()
+            if hasil is not None:
+                data = {
+                    'id': hasil.id,
+                    'image_path': hasil.image_path,
+                    'name': hasil.name,
+                    'address': hasil.address,
+                    'price_per_hour': hasil.price_per_hour,
+                    'open_hour': hasil.open_hour,
+                    'close_hour': hasil.close_hour,
+                    'registered_at': hasil.registered_at
+                }
+                ret = {
+                    'status': 200,
+                    'message': "This is the Registered Bebep Account",
+                    'results': data
+                }
+            else:
+                ret = {
+                    'status': 400,
+                    'message': "Bad Parameter. ID not found",
+                    'results': {}
+                }
+        elif model == "Booking":
+            hasil = sess.query(Booking).filter(Booking.id == id).first()
+            if hasil is not None:
+                data = {
+                    'id': hasil.id,
+                    'user_id': hasil.user_id,
+                    'venue_id': hasil.venue_id,
+                    'start_hour': hasil.start_hour,
+                    'end_hour': hasil.end_hour,
+                    'total_price': hasil.total_price,
+                    'booked_at': hasil.booked_at,
+                    'isFinished': hasil.isFinished
+                }
+                ret = {
+                    'status': 200,
+                    'message': "This is the Booking Details",
+                    'results': data
+                }
+            else:
+                ret = {
+                    'status': 400,
+                    'message': "Bad Parameter. ID not found",
+                    'results': {}
+                }
+        elif model == "BookingHistory":
+            hasil = sess.query(BookingHistory).filter(BookingHistory.id == id).first()
+            if hasil is not None:
+                data = {
+                    'id': hasil.id,
+                    'user_id': hasil.user_id,
+                    'booking_id': hasil.booking_id,
+                }
+                ret = {
+                    'status': 200,
+                    'message': "These Are the Registered Bebep Account",
+                    'results': data
+                }
+            else:
+                ret = {
+                    'status': 400,
+                    'message': "Bad Parameter. ID not found",
+                    'results': {}
+                }
+        else:
+            ret = {
+                'status': 400,
+                'message': "Bad Parameter. Model not found",
+                'results': {}
+            }
+        return ret
+    except Exception as e:
+        ret = {
+            'status': 500,
+            'message': e.args
+        }
+        return ret
+
 
 def topup_bebep(user_id, balance):
     try:
