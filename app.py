@@ -68,6 +68,9 @@ def ktp_verification():
         if request.files:
             file = request.files['img']
             if allowed_file(file.filename):
+                if not os.path.exists('statics/image/'):
+                    # make a directory if it doesn't exist
+                    os.makedirs('statics/image/')
                 filepath = 'statics/image/' + file.filename
                 file.save(os.path.join(filepath))
                 return jsonify(id_verification(filepath))
