@@ -63,36 +63,36 @@ def book_venue(id):
                           start_hour=start_hour, end_hour=end_hour, total_price=total_price,
                           booked_at=datetime.datetime.now(), isFinished=False)
     return jsonify(new_booking.save())
-#
-#
-# @app.route('/verification', methods=['POST'])
-# def ktp_verification():
-#     try:
-#         if request.files:
-#             file = request.files['img']
-#             if allowed_file(file.filename):
-#                 if not os.path.exists('statics/image/'):
-#                     # make a directory if it doesn't exist
-#                     os.makedirs('statics/image/')
-#                 filepath = 'statics/image/' + file.filename
-#                 file.save(os.path.join(filepath))
-#                 return jsonify(id_verification(filepath))
-#             else:
-#                 return jsonify({
-#                     'status': 400,
-#                     'message': 'Bad Input Parameter. Image Must be PNG, JPG, or JPEG'
-#                 })
-#         else:
-#             return jsonify({
-#                 'status': 400,
-#                 'message': 'Bad Input Parameter. Image Needed'
-#             })
-#     except Exception as e:
-#         ret = {
-#             'status': 500,
-#             'message': e.args
-#         }
-#         return ret
+
+
+@app.route('/verification', methods=['POST'])
+def ktp_verification():
+    try:
+        if request.files:
+            file = request.files['img']
+            if allowed_file(file.filename):
+                if not os.path.exists('statics/image/'):
+                    # make a directory if it doesn't exist
+                    os.makedirs('statics/image/')
+                filepath = 'statics/image/' + file.filename
+                file.save(os.path.join(filepath))
+                return jsonify(id_verification(filepath))
+            else:
+                return jsonify({
+                    'status': 400,
+                    'message': 'Bad Input Parameter. Image Must be PNG, JPG, or JPEG'
+                })
+        else:
+            return jsonify({
+                'status': 400,
+                'message': 'Bad Input Parameter. Image Needed'
+            })
+    except Exception as e:
+        ret = {
+            'status': 500,
+            'message': e.args
+        }
+        return ret
 
 
 if __name__ == '__main__':
