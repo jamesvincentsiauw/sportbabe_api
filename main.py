@@ -7,7 +7,7 @@ import os
 from flask import Flask, jsonify, request
 
 from statics.models import User, Bebep, Booking, get, get_by_id, topup_bebep
-# from statics.ktp_verification import id_verification
+from statics.ktp_verification import id_verification
 
 app = Flask(__name__)
 app.secret_key = "GB981UA7YT91"
