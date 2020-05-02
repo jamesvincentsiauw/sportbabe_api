@@ -3,7 +3,7 @@ import cv2.cv2 as cv2
 import pytesseract
 
 load_dotenv()
-pytesseract.pytesseract.tesseract_cmd = '/app/.apt/usr/bin/tesseract'
+pytesseract.pytesseract.tesseract_cmd = r'/app/.apt/usr/bin/tesseract'
 
 
 def id_verification(filepath):
