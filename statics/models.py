@@ -9,6 +9,7 @@ class User(db.Model):
     password = db.Column(db.VARCHAR(255), nullable=False)
     phone = db.Column(db.VARCHAR)
     registered_at = db.Column(db.TIMESTAMP)
+    isVerified = db.Column(db.BOOLEAN, default=False)
 
     def save(self):
         try:
@@ -23,7 +24,8 @@ class User(db.Model):
                     'email': self.email,
                     'password': self.password,
                     'phone': self.password,
-                    'registered_at': self.registered_at
+                    'registered_at': self.registered_at,
+                    'isVerified': self.isVerified
                 }
             }
             return res
@@ -277,7 +279,8 @@ def get_by_id(id, model):
                     'nama': hasil.nama,
                     'email': hasil.email,
                     'phone': hasil.phone,
-                    'registered_at': hasil.registered_at
+                    'registered_at': hasil.registered_at,
+                    'isVerified': hasil.isVerified
                 }
                 ret = {
                     'status': 200,
@@ -424,3 +427,11 @@ def topup_bebep(user_id, balance):
             'message': e.args,
         }
         return ret
+
+
+def isVerified(user_id):
+    checked_user = sess.query(User).filter(User.id == user_id).first()
+    if checked_user is not None:
+        return checked_user.isVerified
+    else:
+        return False

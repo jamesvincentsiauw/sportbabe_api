@@ -6,7 +6,7 @@ import os
 
 from flask import Flask, jsonify, request
 
-from statics.models import User, Bebep, Booking, get, get_by_id, topup_bebep
+from statics.models import User, Bebep, Booking, get, get_by_id, topup_bebep, isVerified
 from statics.ktp_verification import id_verification
 
 app = Flask(__name__)
@@ -45,11 +45,24 @@ def process_user():
 
 @app.route('/bebep', methods=['POST', 'PUT'])
 def process_bebep():
-    if request.method == 'POST':
-        new_bebep_account = Bebep(id=generateID(30), user_id=request.form['user_id'], balance=0)
-        return jsonify(new_bebep_account.save())
-    elif request.method == 'PUT':
-        return jsonify(topup_bebep(user_id=request.form['user_id'], balance=request.form['balance']))
+    try:
+        if isVerified(request.form['user_id']):
+            if request.method == 'POST':
+                new_bebep_account = Bebep(id=generateID(30), user_id=request.form['user_id'], balance=0)
+                return jsonify(new_bebep_account.save())
+            elif request.method == 'PUT':
+                return jsonify(topup_bebep(user_id=request.form['user_id'], balance=request.form['balance']))
+        else:
+            return jsonify({
+                'status': 403,
+                'message': 'Verify account to use Bebep'
+            })
+    except Exception as e:
+        ret = {
+            'status': 500,
+            'message': e.args
+        }
+        return ret
 
 
 @app.route('/venue/book/<id>', methods=['POST'])
