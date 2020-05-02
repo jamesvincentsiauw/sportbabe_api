@@ -15,12 +15,15 @@ app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
+
 def generateID(stringLength):
     lettersAndDigits = string.ascii_letters + string.digits
     return ''.join(random.choice(lettersAndDigits) for i in range(stringLength))
 
+
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 
 @app.route('/')
 def hello_world():
@@ -68,9 +71,9 @@ def ktp_verification():
         if request.files:
             file = request.files['img']
             if allowed_file(file.filename):
-                if not os.path.exists('statics/image/'):
+                if not os.path.exists('../statics/image/'):
                     # make a directory if it doesn't exist
-                    os.makedirs('statics/image/')
+                    os.makedirs('../statics/image/')
                 filepath = 'statics/image/' + file.filename
                 file.save(os.path.join(filepath))
                 return jsonify(id_verification(filepath))
@@ -90,7 +93,3 @@ def ktp_verification():
             'message': e.args
         }
         return ret
-
-
-if __name__ == '__main__':
-    app.run()
