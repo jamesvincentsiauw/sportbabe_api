@@ -28,41 +28,41 @@ def allowed_file(filename):
 @app.route('/')
 def hello_world():
     return 'Hello World!'
-#
-#
-# @app.route('/users', methods=['GET', 'POST'])
-# def process_user():
-#     if request.method == 'GET':
-#         if request.args.get('id'):
-#             return jsonify(get_by_id(request.args.get('id'), "User"))
-#         else:
-#             return jsonify(get("User"))
-#     elif request.method == 'POST':
-#         new_user = User(id=generateID(30), nama=request.form['nama'], email=request.form['email'],
-#                         phone=request.form['phone'], registered_at=datetime.datetime.now())
-#         return jsonify(new_user.save())
-#
-#
-# @app.route('/bebep', methods=['POST', 'PUT'])
-# def process_bebep():
-#     if request.method == 'POST':
-#         new_bebep_account = Bebep(id=generateID(30), user_id=request.form['user_id'], balance=0)
-#         return jsonify(new_bebep_account.save())
-#     elif request.method == 'PUT':
-#         return jsonify(topup_bebep(user_id=request.form['user_id'], balance=request.form['balance']))
-#
-#
-# @app.route('/venue/book/<id>', methods=['POST'])
-# def book_venue(id):
-#     data = requests.get('http://127.0.0.1:5000/venues?id='+id)
-#     venue = data.json()['results']
-#     start_hour = request.form['start_hour']
-#     end_hour = request.form['end_hour']
-#     total_price = (end_hour-start_hour)*venue['price_per_hour']
-#     new_booking = Booking(id=generateID(30), user_id=request.form['user_id'], venue_id=venue['id'],
-#                           start_hour=start_hour, end_hour=end_hour, total_price=total_price,
-#                           booked_at=datetime.datetime.now(), isFinished=False)
-#     return jsonify(new_booking.save())
+
+
+@app.route('/users', methods=['GET', 'POST'])
+def process_user():
+    if request.method == 'GET':
+        if request.args.get('id'):
+            return jsonify(get_by_id(request.args.get('id'), "User"))
+        else:
+            return jsonify(get("User"))
+    elif request.method == 'POST':
+        new_user = User(id=generateID(30), nama=request.form['nama'], email=request.form['email'],
+                        phone=request.form['phone'], registered_at=datetime.datetime.now())
+        return jsonify(new_user.save())
+
+
+@app.route('/bebep', methods=['POST', 'PUT'])
+def process_bebep():
+    if request.method == 'POST':
+        new_bebep_account = Bebep(id=generateID(30), user_id=request.form['user_id'], balance=0)
+        return jsonify(new_bebep_account.save())
+    elif request.method == 'PUT':
+        return jsonify(topup_bebep(user_id=request.form['user_id'], balance=request.form['balance']))
+
+
+@app.route('/venue/book/<id>', methods=['POST'])
+def book_venue(id):
+    data = requests.get('http://127.0.0.1:5000/venues?id='+id)
+    venue = data.json()['results']
+    start_hour = request.form['start_hour']
+    end_hour = request.form['end_hour']
+    total_price = (end_hour-start_hour)*venue['price_per_hour']
+    new_booking = Booking(id=generateID(30), user_id=request.form['user_id'], venue_id=venue['id'],
+                          start_hour=start_hour, end_hour=end_hour, total_price=total_price,
+                          booked_at=datetime.datetime.now(), isFinished=False)
+    return jsonify(new_booking.save())
 #
 #
 # @app.route('/verification', methods=['POST'])
