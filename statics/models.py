@@ -104,13 +104,13 @@ class Venue(db.Model):
 
 
 class Booking(db.Model):
-    __table_name__ = "Booking"
+    __tablename__ = "Booking"
     id = db.Column(db.VARCHAR, primary_key=True, unique=True)
     user_id = db.Column(db.VARCHAR, nullable=False)
     venue_id = db.Column(db.VARCHAR, nullable=False)
     start_hour = db.Column(db.TIME, nullable=False)
     end_hour = db.Column(db.TIME, nullable=False)
-    total_price = db.Column(db.NUMERIC, nullable=False)
+    total_price = db.Column(db.VARCHAR, nullable=False)
     booked_at = db.Column(db.TIMESTAMP, nullable=False)
     isFinished = db.Column(db.BOOLEAN, nullable=False)
 

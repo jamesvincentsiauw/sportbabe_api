@@ -114,9 +114,9 @@ def ktp_verification():
 @app.route('/bookings', methods=['GET'])
 def process_booking():
     if request.args.get('id'):
-        return jsonify(get_by_id(request.args.get('id'), "BookingHistory"))
+        return jsonify(get_by_id(request.args.get('id'), "Booking"))
     else:
-        return jsonify(get("BookingHistory"))
+        return jsonify(get("Booking"))
 
 
 @app.route('/covid-19', methods=['GET'])
