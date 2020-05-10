@@ -111,13 +111,19 @@ def ktp_verification():
         return ret
 
 
-@app.route('/bookings', methods=['GET'])
+@app.route('/bookings', methods=['GET','POST'])
 def process_booking():
-    if request.args.get('user'):
-        return jsonify(get_by_id(request.args.get('user'), "Booking"))
-    else:
-        return jsonify(get("Booking"))
-
+	if request.method == 'GET':
+		if request.args.get('user'):
+			return jsonify(get_by_id(request.args.get('user'), "Booking"))
+		else:
+			return jsonify(get("Booking"))
+	elif request.method == 'POST':
+		new_booking = Booking(id=generateID(30), user_id=request.form['user_id'], venue_id=request.form['venue_id'],
+                          start_hour=request.form['start_hour'], end_hour=request.form['end_hour'], total_price=request.form['total_price'],
+                          booked_at=datetime.datetime.now(), isFinished=request.form['isFinished'])
+    return jsonify(new_booking.save())
+    
 
 @app.route('/covid-19', methods=['GET'])
 def covid_data():
