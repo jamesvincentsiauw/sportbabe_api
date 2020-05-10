@@ -126,7 +126,7 @@ def process_booking():
         return jsonify(new_booking.save())
     
 
-@app.route('/venues', methods=['GET','POST'])
+@app.route('/venues', methods=['GET'])
 def process_venue():
     if request.method == 'GET':
         if request.args.get('id'):

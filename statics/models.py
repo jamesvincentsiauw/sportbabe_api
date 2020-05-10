@@ -211,7 +211,7 @@ def get(model):
                     'image_path': hasil.image_path,
                     'name': hasil.name,
                     'address': hasil.address,
-                    'price_per_hour': hasil.price_per_hour,
+                    'price_per_hour': str(hasil.price_per_hour),
                     'open_hour': hasil.open_hour,
                     'close_hour': hasil.close_hour,
                     'registered_at': hasil.registered_at
