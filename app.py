@@ -111,19 +111,19 @@ def ktp_verification():
         return ret
 
 
-@app.route('/bookings', methods=['GET','POST'])
-def process_booking():
-    if request.method == 'GET':
-        if request.args.get('user'):
-            return jsonify(get_by_id(request.args.get('user'), "Booking"))
-        else:
-            return jsonify(get("Booking"))
-    elif request.method == 'POST':
-        new_booking = Booking(id=generateID(30), user_id=request.form['user_id'], venue_id=request.form['venue_id'],
-                              start_hour=request.form['start_hour'], end_hour=request.form['end_hour'],
-                              total_price=request.form['total_price'], booked_at=datetime.datetime.now(),
-                              isFinished=request.form['isFinished'])
-        return jsonify(new_booking.save())
+# @app.route('/bookings', methods=['GET','POST'])
+# def process_booking():
+#     if request.method == 'GET':
+#         if request.args.get('user'):
+#             return jsonify(get_by_id(request.args.get('user'), "Booking"))
+#         else:
+#             return jsonify(get("Booking"))
+#     elif request.method == 'POST':
+#         new_booking = Booking(id=generateID(30), user_id=request.form['user_id'], venue_id=request.form['venue_id'],
+#                               start_hour=request.form['start_hour'], end_hour=request.form['end_hour'],
+#                               total_price=request.form['total_price'], booked_at=datetime.datetime.now(),
+#                               isFinished=request.form['isFinished'])
+#         return jsonify(new_booking.save())
     
 
 @app.route('/venues', methods=['GET','POST'])
@@ -140,38 +140,38 @@ def process_booking():
                               isFinished=request.form['isFinished'])
         return jsonify(new_booking.save())
 
-
-@app.route('/covid-19', methods=['GET'])
-def covid_data():
-    datas = requests.get('https://api.kawalcorona.com/indonesia/provinsi')
-    ind = np.arange(1)
-    width = 0.5
-    count = 0
-    province = []
-    death = []
-    confirmed = []
-    recovered = []
-    for key in datas.json():
-        province.append(key['attributes']['Provinsi'])
-        death.append(key['attributes']['Kasus_Meni'])
-        confirmed.append(key['attributes']['Kasus_Posi'])
-        recovered.append(key['attributes']['Kasus_Semb'])
-        count +=1
-        if count == 5:
-            break
-    i=0
-    while i < 5:
-        plt.bar(ind, confirmed[i], width, label="Positif COVID-19")
-        plt.bar(ind+width, death[i], width, label="Meninggal")
-        plt.bar(ind+width*2, recovered[i], label="Sembuh")
-        plt.ylabel("Jumlah")
-
-        plt.title("Kasus COVID-19 Indonesia")
-        plt.xlabel(province[i])
-        plt.legend(loc='best')
-        plt.show()
-        i += 1
-    return jsonify(datas.json())
+#
+# @app.route('/covid-19', methods=['GET'])
+# def covid_data():
+#     datas = requests.get('https://api.kawalcorona.com/indonesia/provinsi')
+#     ind = np.arange(1)
+#     width = 0.5
+#     count = 0
+#     province = []
+#     death = []
+#     confirmed = []
+#     recovered = []
+#     for key in datas.json():
+#         province.append(key['attributes']['Provinsi'])
+#         death.append(key['attributes']['Kasus_Meni'])
+#         confirmed.append(key['attributes']['Kasus_Posi'])
+#         recovered.append(key['attributes']['Kasus_Semb'])
+#         count +=1
+#         if count == 5:
+#             break
+#     i=0
+#     while i < 5:
+#         plt.bar(ind, confirmed[i], width, label="Positif COVID-19")
+#         plt.bar(ind+width, death[i], width, label="Meninggal")
+#         plt.bar(ind+width*2, recovered[i], label="Sembuh")
+#         plt.ylabel("Jumlah")
+#
+#         plt.title("Kasus COVID-19 Indonesia")
+#         plt.xlabel(province[i])
+#         plt.legend(loc='best')
+#         plt.show()
+#         i += 1
+#     return jsonify(datas.json())
 
 
 if __name__ == '__main__':
