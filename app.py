@@ -122,7 +122,7 @@ def process_booking():
         new_booking = Booking(id=generateID(30), user_id=request.form['user_id'], venue_id=request.form['venue_id'],
                               start_hour=request.form['start_hour'], end_hour=request.form['end_hour'],
                               total_price=request.form['total_price'], booked_at=datetime.datetime.now(),
-                              isFinished=bool(request.form['isFinished']))
+                              isFinished=eval(request.form['isFinished']))
         return jsonify(new_booking.save())
     
 
