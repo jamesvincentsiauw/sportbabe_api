@@ -338,22 +338,25 @@ def get_by_id(id, model):
                     'results': {}
                 }
         elif model == "Booking":
-            hasil = sess.query(Booking).filter(Booking.user_id == id).first()
-            if hasil is not None:
-                data = {
-                    'id': hasil.id,
-                    'user_id': hasil.user_id,
-                    'venue_id': hasil.venue_id,
-                    'start_hour': hasil.start_hour,
-                    'end_hour': hasil.end_hour,
-                    'total_price': hasil.total_price,
-                    'booked_at': hasil.booked_at,
-                    'isFinished': hasil.isFinished
-                }
+            hasils = sess.query(Booking).filter(Booking.user_id == id).all()
+            if hasils is not None:
+                res=[]
+                for hasil in hasils:
+                    data = {
+                        'id': hasil.id,
+                        'user_id': hasil.user_id,
+                        'venue_id': hasil.venue_id,
+                        'start_hour': hasil.start_hour,
+                        'end_hour': hasil.end_hour,
+                        'total_price': hasil.total_price,
+                        'booked_at': hasil.booked_at,
+                        'isFinished': hasil.isFinished
+                    }
+                    res.append(data)
                 ret = {
                     'status': 200,
                     'message': "This is the Booking Details",
-                    'results': data
+                    'results': res
                 }
             else:
                 ret = {
