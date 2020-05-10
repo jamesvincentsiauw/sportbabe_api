@@ -41,7 +41,7 @@ def process_user():
         else:
             return jsonify(get("User"))
     elif request.method == 'POST':
-        new_user = User(id=generateID(30), nama=request.form['nama'], email=request.form['email'],
+        new_user = User(id=request.form['id'], nama=request.form['nama'], email=request.form['email'],
                         phone=request.form['phone'], registered_at=datetime.datetime.now())
         return jsonify(new_user.save())
 
