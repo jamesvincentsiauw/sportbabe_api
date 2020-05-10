@@ -71,6 +71,7 @@ class Venue(db.Model):
     image_path = db.Column(db.VARCHAR, nullable=False)
     name = db.Column(db.VARCHAR, nullable=False)
     address = db.Column(db.VARCHAR, nullable=False)
+    category = db.Column(db.VARCHAR, nullable=False)
     price_per_hour = db.Column(db.NUMERIC, nullable=False)
     open_hour = db.Column(db.TIME, nullable=False)
     close_hour = db.Column(db.TIME, nullable=False)
@@ -88,6 +89,7 @@ class Venue(db.Model):
                     'image_path': self.image_path,
                     'name': self.name,
                     'address': self.address,
+                    'category': self.category,
                     'price_per_hour': self.price_per_hour,
                     'open_hour': self.open_hour,
                     'close_hour': self.close_hour,
@@ -211,6 +213,7 @@ def get(model):
                     'image_path': hasil.image_path,
                     'name': hasil.name,
                     'address': hasil.address,
+                    'category': hasil.category,
                     'price_per_hour': str(hasil.price_per_hour),
                     'open_hour': hasil.open_hour,
                     'close_hour': hasil.close_hour,
@@ -321,6 +324,7 @@ def get_by_id(id, model):
                     'image_path': hasil.image_path,
                     'name': hasil.name,
                     'address': hasil.address,
+                    'category': hasil.category,
                     'price_per_hour': hasil.price_per_hour,
                     'open_hour': hasil.open_hour,
                     'close_hour': hasil.close_hour,
