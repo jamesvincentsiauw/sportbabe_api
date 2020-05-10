@@ -5,8 +5,8 @@ import numpy as np
 from pytesseract import Output
 
 load_dotenv()
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract'
-# pytesseract.pytesseract.tesseract_cmd = r'/app/.apt/usr/bin/tesseract'
+# pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract'
+pytesseract.pytesseract.tesseract_cmd = r'/app/.apt/usr/bin/tesseract'
 
 
 def get_grayscale(image):
