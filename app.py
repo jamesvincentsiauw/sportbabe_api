@@ -132,7 +132,8 @@ def process_venue():
         if request.args.get('id'):
             return jsonify(get_by_id(request.args.get('id'), "Venue"))
         else:
-            return jsonify(get("Booking"))
+            return jsonify(get("Venue"))
+
 
 #
 # @app.route('/covid-19', methods=['GET'])
