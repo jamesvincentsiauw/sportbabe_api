@@ -113,7 +113,7 @@ def ktp_verification():
 
 @app.route('/bookings', methods=['GET'])
 def process_booking():
-    if request.args.get('use'):
+    if request.args.get('user'):
         return jsonify(get_by_id(request.args.get('user'), "Booking"))
     else:
         return jsonify(get("Booking"))
