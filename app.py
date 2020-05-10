@@ -3,6 +3,9 @@ import string
 import datetime
 import requests
 import os
+import json
+import matplotlib.pyplot as plt
+import numpy as np
 
 from flask import Flask, jsonify, request
 
@@ -106,6 +109,39 @@ def ktp_verification():
             'message': e.args
         }
         return ret
+
+
+@app.route('/covid-19', methods=['GET'])
+def covid_data():
+    datas = requests.get('https://api.kawalcorona.com/indonesia/provinsi')
+    ind = np.arange(1)
+    width = 0.5
+    count = 0
+    province = []
+    death = []
+    confirmed = []
+    recovered = []
+    for key in datas.json():
+        province.append(key['attributes']['Provinsi'])
+        death.append(key['attributes']['Kasus_Meni'])
+        confirmed.append(key['attributes']['Kasus_Posi'])
+        recovered.append(key['attributes']['Kasus_Semb'])
+        count +=1
+        if count == 5:
+            break
+    i=0
+    while i < 5:
+        plt.bar(ind, confirmed[i], width, label="Positif COVID-19")
+        plt.bar(ind+width, death[i], width, label="Meninggal")
+        plt.bar(ind+width*2, recovered[i], label="Sembuh")
+        plt.ylabel("Jumlah")
+
+        plt.title("Kasus COVID-19 Indonesia")
+        plt.xlabel(province[i])
+        plt.legend(loc='best')
+        plt.show()
+        i += 1
+    return jsonify(datas.json())
 
 
 if __name__ == '__main__':
