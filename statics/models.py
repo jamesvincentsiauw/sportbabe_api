@@ -180,7 +180,8 @@ def get(model):
                     'nama': hasil.nama,
                     'email': hasil.email,
                     'phone': hasil.phone,
-                    'registered_at': hasil.registered_at
+                    'registered_at': hasil.registered_at,
+                    'isVerified': hasil.isVerified
                 }
                 res.append(data)
             ret = {
@@ -337,7 +338,7 @@ def get_by_id(id, model):
                     'results': {}
                 }
         elif model == "Booking":
-            hasil = sess.query(Booking).filter(Booking.id == id).first()
+            hasil = sess.query(Booking).filter(Booking.user_id == id).first()
             if hasil is not None:
                 data = {
                     'id': hasil.id,
