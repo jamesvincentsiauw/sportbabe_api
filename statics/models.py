@@ -449,7 +449,7 @@ def to_bool(s):
     return 1 if s == 'true' else 0
 
 
-def updateUserStatus(user_id, status):
+def updateUserStatus(user_id):
     try:
         checked_user = sess.query(User).filter(User.id == user_id)
         if checked_user.first() is not None:

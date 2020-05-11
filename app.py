@@ -46,7 +46,7 @@ def process_user():
         return jsonify(new_user.save())
     elif request.method == 'PUT':
         if request.args.get('id'):
-            return jsonify(updateUserStatus(request.args.get('id'), True))
+            return jsonify(updateUserStatus(request.args.get('id')))
         else:
             return jsonify({
                 'status': 400,
