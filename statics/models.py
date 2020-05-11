@@ -443,3 +443,41 @@ def isVerified(user_id):
         return checked_user.isVerified
     else:
         return False
+
+
+def to_bool(s):
+    return 1 if s == 'true' else 0
+
+
+def updateUserStatus(user_id, status):
+    try:
+        checked_user = sess.query(User).filter(User.id == user_id)
+        if checked_user.first() is not None:
+            print(checked_user.first().isVerified)
+            edit = checked_user.update({
+                'isVerified': not checked_user.first().isVerified
+            }, synchronize_session=False)
+            sess.commit()
+            if edit == 1:
+                ret = {
+                    'status': 200,
+                    'message': 'Data updated!'
+                }
+            else:
+                ret = {
+                    'status': 500,
+                    'message': "Something's went wrong with our server. Please try again later!"
+                }
+            return ret
+        else:
+            ret = {
+                'status': 400,
+                'message': "ID not found"
+            }
+            return ret
+    except Exception as e:
+        ret = {
+            'status': 500,
+            'message': e.args,
+        }
+        return ret

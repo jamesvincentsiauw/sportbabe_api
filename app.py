@@ -9,7 +9,7 @@ import numpy as np
 
 from flask import Flask, jsonify, request
 
-from statics.models import User, Bebep, Booking, get, get_by_id, topup_bebep, isVerified
+from statics.models import User, Bebep, Booking, get, get_by_id, topup_bebep, isVerified, updateUserStatus
 from statics.ktp_verification import id_verification
 
 app = Flask(__name__)
@@ -33,7 +33,7 @@ def hello_world():
     return 'Hello World!'
 
 
-@app.route('/users', methods=['GET', 'POST'])
+@app.route('/users', methods=['GET', 'POST', 'PUT'])
 def process_user():
     if request.method == 'GET':
         if request.args.get('id'):
@@ -44,6 +44,14 @@ def process_user():
         new_user = User(id=request.form['id'], nama=request.form['nama'], email=request.form['email'],
                         phone=request.form['phone'], registered_at=datetime.datetime.now())
         return jsonify(new_user.save())
+    elif request.method == 'PUT':
+        if request.args.get('id'):
+            return jsonify(updateUserStatus(request.args.get('id'), True))
+        else:
+            return jsonify({
+                'status': 400,
+                'message': 'Bad Parameter!'
+            })
 
 
 @app.route('/bebep', methods=['POST', 'PUT'])
